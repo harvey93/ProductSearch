@@ -20,21 +20,16 @@ class Sem3SearchService
   private
 
   def setup
-    puts "Setup"
-    puts @key
-    puts @secret
     @sem3 = Semantics3::Products.new(@key, @secret)
 
   end
 
   def construct_query
-    puts "QUERY"
 
     @sem3.products_field('search', params[:search])
   end
 
   def get_products
-    puts "Products"
 
     Rails.logger.info('+++ Sem3 API: Getting products... +++')
 

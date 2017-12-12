@@ -32,7 +32,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 # Background processing...
 gem 'sidekiq', '>= 4.1.4'
-
+gem 'pry-rails'
 # Semantics3
 gem 'semantics3'
 
