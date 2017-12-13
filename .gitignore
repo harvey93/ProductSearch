@@ -22,3 +22,7 @@
 
 .byebug_history
 .env
+
+bundle.js
+
+bundle.js.map
