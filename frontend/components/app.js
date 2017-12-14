@@ -6,7 +6,7 @@ class App extends React.Component {
 
   constructor(){
     super()
-    this.state = {admin: false, search: "", data: [], name: "", price: "", retailer: "", };
+    this.state = {admin: false, search: "", data: [], name: "", price: "", retailer: "", url: ""};
     this.handleClick = this.handleClick.bind(this);
     this.toggleAdmin = this.toggleAdmin.bind(this);
     this.handleAddResult = this.handleAddResult.bind(this);
@@ -15,9 +15,10 @@ class App extends React.Component {
 
   handleClick(e){
     e.preventDefault();
+    let lastSearched = this.state.search;
     axios.get(`api/product_search?search=${this.state.search}`)
     .then(res => {
-      this.setState({"search": "", "data": res.data});
+      this.setState({"search": "", "data": res.data, "lastSearched": lastSearched});
     })
   }
 
@@ -29,13 +30,24 @@ update(field){
 
 handleAddResult(e){
   e.preventDefault();
-
-  console.log("In")
+  let newResult = {
+    name: this.state.name,
+    price: this.state.price,
+    retailer: this.state.retailer,
+    url: this.state.url
+  }
+  axios.post('api/search_result', {
+    result: newResult,
+    search: this.state.lastSearched
+  })
+  .then(res => {
+    this.setState({"data": res.data.reverse(), name: "", price: "", retailer: "", url: ""});
+  })
 
 }
 
 renderAddForm(){
-  if(this.state.admin){
+  if(this.state.admin && this.state.data.length > 0){
     return(
       <form onSubmit={this.handleAddResult} className={"add-form"}>
         <h1 className={"add-form-title"}>Add product to cache</h1>

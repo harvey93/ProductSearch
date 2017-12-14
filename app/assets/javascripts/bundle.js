@@ -22125,7 +22125,7 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-    _this.state = { admin: false, search: "", data: [], name: "", price: "", retailer: "" };
+    _this.state = { admin: false, search: "", data: [], name: "", price: "", retailer: "", url: "" };
     _this.handleClick = _this.handleClick.bind(_this);
     _this.toggleAdmin = _this.toggleAdmin.bind(_this);
     _this.handleAddResult = _this.handleAddResult.bind(_this);
@@ -22139,8 +22139,9 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       e.preventDefault();
+      var lastSearched = this.state.search;
       _axios2.default.get('api/product_search?search=' + this.state.search).then(function (res) {
-        _this2.setState({ "search": "", "data": res.data });
+        _this2.setState({ "search": "", "data": res.data, "lastSearched": lastSearched });
       });
     }
   }, {
@@ -22155,14 +22156,26 @@ var App = function (_React$Component) {
   }, {
     key: 'handleAddResult',
     value: function handleAddResult(e) {
-      e.preventDefault();
+      var _this4 = this;
 
-      console.log("In");
+      e.preventDefault();
+      var newResult = {
+        name: this.state.name,
+        price: this.state.price,
+        retailer: this.state.retailer,
+        url: this.state.url
+      };
+      _axios2.default.post('api/search_result', {
+        result: newResult,
+        search: this.state.lastSearched
+      }).then(function (res) {
+        _this4.setState({ "data": res.data.reverse(), name: "", price: "", retailer: "", url: "" });
+      });
     }
   }, {
     key: 'renderAddForm',
     value: function renderAddForm() {
-      if (this.state.admin) {
+      if (this.state.admin && this.state.data.length > 0) {
         return _react2.default.createElement(
           'form',
           { onSubmit: this.handleAddResult, className: "add-form" },
@@ -22187,7 +22200,7 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _this4 = this;
+      var _this5 = this;
 
       return _react2.default.createElement(
         'div',
@@ -22215,7 +22228,7 @@ var App = function (_React$Component) {
             'div',
             { className: "card-list" },
             this.state.data.map(function (item, idx) {
-              return _react2.default.createElement(_ItemCard2.default, { key: idx, item: item, admin: _this4.state.admin });
+              return _react2.default.createElement(_ItemCard2.default, { key: idx, item: item, admin: _this5.state.admin });
             })
           ),
           this.renderAddForm()
@@ -23835,6 +23848,7 @@ var ItemCard = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (ItemCard.__proto__ || Object.getPrototypeOf(ItemCard)).call(this));
 
+    _this.state = { deleted: false };
     _this.handleDelete = _this.handleDelete.bind(_this);
     return _this;
   }
@@ -23842,7 +23856,12 @@ var ItemCard = function (_React$Component) {
   _createClass(ItemCard, [{
     key: 'handleDelete',
     value: function handleDelete() {
-      console.log(this.props.item);
+      var _this2 = this;
+
+      console.log(this.props.item.id);
+      _axios2.default.delete('api/search_result/' + this.props.item.id).then(function (res) {
+        _this2.setState({ deleted: true });
+      });
     }
   }, {
     key: 'renderDelete',
@@ -23858,27 +23877,31 @@ var ItemCard = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      return _react2.default.createElement(
-        'div',
-        { className: "card-div" },
-        _react2.default.createElement(
-          'h1',
-          { className: "card-item" },
-          this.props.item.name
-        ),
-        _react2.default.createElement(
-          'h1',
-          { className: "card-item" },
-          '$',
-          this.props.item.price
-        ),
-        _react2.default.createElement(
-          'a',
-          { className: "card-item", target: 'tab', href: this.props.item.retailer_url },
-          this.props.item.retailer_name
-        ),
-        this.renderDelete()
-      );
+      if (!this.state.deleted) {
+        return _react2.default.createElement(
+          'div',
+          { className: "card-div" },
+          _react2.default.createElement(
+            'h1',
+            { className: "card-item" },
+            this.props.item.name
+          ),
+          _react2.default.createElement(
+            'h1',
+            { className: "card-item" },
+            '$',
+            this.props.item.price
+          ),
+          _react2.default.createElement(
+            'a',
+            { className: "card-item", target: 'tab', href: this.props.item.retailer_url },
+            this.props.item.retailer_name
+          ),
+          this.renderDelete()
+        );
+      } else {
+        return _react2.default.createElement('div', null);
+      }
     }
   }]);
 

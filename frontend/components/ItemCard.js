@@ -6,11 +6,16 @@ class ItemCard extends React.Component{
 
   constructor(){
     super()
+    this.state = {deleted: false};
     this.handleDelete = this.handleDelete.bind(this);
   }
 
   handleDelete(){
-    console.log(this.props.item);
+    console.log(this.props.item.id);
+    axios.delete(`api/search_result/${this.props.item.id}`)
+    .then(res => {
+      this.setState({deleted:true});
+    });
   }
 
   renderDelete(){
@@ -21,15 +26,22 @@ class ItemCard extends React.Component{
     }
   }
 
-  render(){
-    return(
-    <div className={"card-div"}>
-      <h1 className={"card-item"}>{this.props.item.name}</h1>
-      <h1 className={"card-item"}>${this.props.item.price}</h1>
-      <a className={"card-item"} target="tab" href={this.props.item.retailer_url}>{this.props.item.retailer_name}</a>
-      {this.renderDelete()}
-    </div>
-  );
+    render(){
+      if(!this.state.deleted){
+        return(
+        <div className={"card-div"}>
+          <h1 className={"card-item"}>{this.props.item.name}</h1>
+          <h1 className={"card-item"}>${this.props.item.price}</h1>
+          <a className={"card-item"} target="tab" href={this.props.item.retailer_url}>{this.props.item.retailer_name}</a>
+          {this.renderDelete()}
+        </div>
+      );
+    }else {
+        return(
+        <div>
+        </div>
+      );
+    }
   }
 }
 

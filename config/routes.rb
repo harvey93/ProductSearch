@@ -4,6 +4,7 @@ root "static_pages#root"
 
 namespace :api, defaults: {format: :json} do
   resources :product_search, only: [:index]
+  resources :search_result, only: [:create, :destroy, :index]
 end
 
 end
