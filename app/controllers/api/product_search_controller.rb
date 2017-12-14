@@ -27,4 +27,5 @@ class Api::ProductSearchController < ApplicationController
     @items = word.search_results
   end
 
+
 end

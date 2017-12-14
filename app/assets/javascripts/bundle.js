@@ -22125,8 +22125,11 @@ var App = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this));
 
-    _this.state = { admin: false, search: "", data: [] };
+    _this.state = { admin: false, search: "", data: [], name: "", price: "", retailer: "" };
     _this.handleClick = _this.handleClick.bind(_this);
+    _this.toggleAdmin = _this.toggleAdmin.bind(_this);
+    _this.handleAddResult = _this.handleAddResult.bind(_this);
+
     return _this;
   }
 
@@ -22150,8 +22153,42 @@ var App = function (_React$Component) {
       };
     }
   }, {
+    key: 'handleAddResult',
+    value: function handleAddResult(e) {
+      e.preventDefault();
+
+      console.log("In");
+    }
+  }, {
+    key: 'renderAddForm',
+    value: function renderAddForm() {
+      if (this.state.admin) {
+        return _react2.default.createElement(
+          'form',
+          { onSubmit: this.handleAddResult, className: "add-form" },
+          _react2.default.createElement(
+            'h1',
+            { className: "add-form-title" },
+            'Add product to cache'
+          ),
+          _react2.default.createElement('input', { className: "add-input", type: 'text', onChange: this.update("name"), placeholder: 'Name', value: this.state.name }),
+          _react2.default.createElement('input', { className: "add-input", type: 'text', onChange: this.update("price"), placeholder: 'Price', value: this.state.price }),
+          _react2.default.createElement('input', { className: "add-input", type: 'text', onChange: this.update("retailer"), placeholder: 'Retailer', value: this.state.retailer }),
+          _react2.default.createElement('input', { className: "add-input", type: 'text', onChange: this.update("url"), placeholder: 'Url', value: this.state.url }),
+          _react2.default.createElement('input', { className: "submit-button", type: 'submit', value: 'Submit' })
+        );
+      }
+    }
+  }, {
+    key: 'toggleAdmin',
+    value: function toggleAdmin() {
+      this.setState({ admin: !this.state.admin });
+    }
+  }, {
     key: 'render',
     value: function render() {
+      var _this4 = this;
+
       return _react2.default.createElement(
         'div',
         { className: 'main-div' },
@@ -22162,16 +22199,26 @@ var App = function (_React$Component) {
         ),
         _react2.default.createElement(
           'form',
-          { onSubmit: this.handleClick },
-          _react2.default.createElement('input', { type: 'text', onChange: this.update("search"), placeholder: 'Search', value: this.state.search }),
-          _react2.default.createElement('input', { className: "submit-button", type: 'submit', value: 'Submit' })
+          { onSubmit: this.handleClick, className: 'search-form' },
+          _react2.default.createElement('input', { className: "search-bar", type: 'text', onChange: this.update("search"), placeholder: 'Search', value: this.state.search }),
+          _react2.default.createElement('input', { className: "submit-button", type: 'submit', value: 'Submit' }),
+          _react2.default.createElement(
+            'h1',
+            { className: "submit-button", onClick: this.toggleAdmin },
+            'Toggle Admin'
+          )
         ),
         _react2.default.createElement(
           'div',
-          { className: "card-list" },
-          this.state.data.map(function (item, idx) {
-            return _react2.default.createElement(_ItemCard2.default, { key: idx, item: item });
-          })
+          { className: "main-content" },
+          _react2.default.createElement(
+            'div',
+            { className: "card-list" },
+            this.state.data.map(function (item, idx) {
+              return _react2.default.createElement(_ItemCard2.default, { key: idx, item: item, admin: _this4.state.admin });
+            })
+          ),
+          this.renderAddForm()
         )
       );
     }
@@ -23786,10 +23833,29 @@ var ItemCard = function (_React$Component) {
   function ItemCard() {
     _classCallCheck(this, ItemCard);
 
-    return _possibleConstructorReturn(this, (ItemCard.__proto__ || Object.getPrototypeOf(ItemCard)).apply(this, arguments));
+    var _this = _possibleConstructorReturn(this, (ItemCard.__proto__ || Object.getPrototypeOf(ItemCard)).call(this));
+
+    _this.handleDelete = _this.handleDelete.bind(_this);
+    return _this;
   }
 
   _createClass(ItemCard, [{
+    key: 'handleDelete',
+    value: function handleDelete() {
+      console.log(this.props.item);
+    }
+  }, {
+    key: 'renderDelete',
+    value: function renderDelete() {
+      if (this.props.admin) {
+        return _react2.default.createElement(
+          'h1',
+          { className: "submit-button", onClick: this.handleDelete },
+          'Delete'
+        );
+      }
+    }
+  }, {
     key: 'render',
     value: function render() {
       return _react2.default.createElement(
@@ -23798,21 +23864,20 @@ var ItemCard = function (_React$Component) {
         _react2.default.createElement(
           'h1',
           { className: "card-item" },
-          'Name: ',
           this.props.item.name
         ),
         _react2.default.createElement(
           'h1',
           { className: "card-item" },
-          'Price: $',
+          '$',
           this.props.item.price
         ),
         _react2.default.createElement(
           'a',
           { className: "card-item", target: 'tab', href: this.props.item.retailer_url },
-          'Link: ',
           this.props.item.retailer_name
-        )
+        ),
+        this.renderDelete()
       );
     }
   }]);
