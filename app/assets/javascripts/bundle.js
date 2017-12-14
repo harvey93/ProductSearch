@@ -22103,6 +22103,10 @@ var _axios = __webpack_require__(192);
 
 var _axios2 = _interopRequireDefault(_axios);
 
+var _ItemCard = __webpack_require__(211);
+
+var _ItemCard2 = _interopRequireDefault(_ItemCard);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -22132,9 +22136,7 @@ var App = function (_React$Component) {
       var _this2 = this;
 
       e.preventDefault();
-      // console.log(this.state.search);
       _axios2.default.get('api/product_search?search=' + this.state.search).then(function (res) {
-        // console.log(res.data);
         _this2.setState({ "search": "", "data": res.data });
       });
     }
@@ -22150,20 +22152,26 @@ var App = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(this.state.data);
       return _react2.default.createElement(
         'div',
-        null,
+        { className: 'main-div' },
         _react2.default.createElement(
           'h1',
-          null,
-          'React App'
+          { className: 'title' },
+          'Product Search'
         ),
         _react2.default.createElement(
           'form',
           { onSubmit: this.handleClick },
           _react2.default.createElement('input', { type: 'text', onChange: this.update("search"), placeholder: 'Search', value: this.state.search }),
-          _react2.default.createElement('input', { type: 'submit', value: 'Submit' })
+          _react2.default.createElement('input', { className: "submit-button", type: 'submit', value: 'Submit' })
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: "card-list" },
+          this.state.data.map(function (item, idx) {
+            return _react2.default.createElement(_ItemCard2.default, { key: idx, item: item });
+          })
         )
       );
     }
@@ -23742,6 +23750,77 @@ module.exports = function spread(callback) {
   };
 };
 
+
+/***/ }),
+/* 211 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = __webpack_require__(82);
+
+var _react2 = _interopRequireDefault(_react);
+
+var _axios = __webpack_require__(192);
+
+var _axios2 = _interopRequireDefault(_axios);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var ItemCard = function (_React$Component) {
+  _inherits(ItemCard, _React$Component);
+
+  function ItemCard() {
+    _classCallCheck(this, ItemCard);
+
+    return _possibleConstructorReturn(this, (ItemCard.__proto__ || Object.getPrototypeOf(ItemCard)).apply(this, arguments));
+  }
+
+  _createClass(ItemCard, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: "card-div" },
+        _react2.default.createElement(
+          'h1',
+          { className: "card-item" },
+          'Name: ',
+          this.props.item.name
+        ),
+        _react2.default.createElement(
+          'h1',
+          { className: "card-item" },
+          'Price: $',
+          this.props.item.price
+        ),
+        _react2.default.createElement(
+          'a',
+          { className: "card-item", target: 'tab', href: this.props.item.retailer_url },
+          'Link: ',
+          this.props.item.retailer_name
+        )
+      );
+    }
+  }]);
+
+  return ItemCard;
+}(_react2.default.Component);
+
+exports.default = ItemCard;
 
 /***/ })
 /******/ ]);

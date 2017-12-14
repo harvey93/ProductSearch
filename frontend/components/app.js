@@ -1,5 +1,6 @@
 import React from 'react';
 import axios from 'axios';
+import ItemCard from './ItemCard.js';
 
 class App extends React.Component {
 
@@ -11,10 +12,8 @@ class App extends React.Component {
 
   handleClick(e){
     e.preventDefault();
-    // console.log(this.state.search);
     axios.get(`api/product_search?search=${this.state.search}`)
     .then(res => {
-      // console.log(res.data);
       this.setState({"search": "", "data": res.data});
     })
   }
@@ -27,15 +26,18 @@ update(field){
 
 
   render(){
-    console.log(this.state.data);
     return(
-      <div>
-      <h1 >React App</h1>
+      <div className={'main-div'}>
+      <h1 className={'title'}>Product Search</h1>
         <form onSubmit={this.handleClick}>
-        <input type='text' onChange={this.update("search")} placeholder='Search' value={this.state.search}/>
-          <input type="submit" value="Submit"/>
+          <input type='text' onChange={this.update("search")} placeholder='Search' value={this.state.search}/>
+          <input className={"submit-button"} type="submit" value="Submit"/>
         </form>
-
+        <div className={"card-list"}>
+          {this.state.data.map((item, idx) => (
+            <ItemCard key={idx} item={item}/>
+          ))}
+        </div>
       </div>
     )
   }
