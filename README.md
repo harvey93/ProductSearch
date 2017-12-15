@@ -35,3 +35,21 @@ end
 ![Add/Delete](assets/add-del.png)
 
 "Admin" users of the application will be able to manage their local cache. They will have the ability to add new items as well as delete items from the cache.
+
+## Running Product Search Locally
+
+* `git clone https://github.com/harvey93/ProductSearch.git`
+
+* Create .env file at root directory and API key and secret
+```
+SEM3_API_KEY=
+SEM3_API_SECRET=
+```
+* `cd ProductSearch`
+* `bundle install`
+* `npm install`
+* `webpack`
+* `rake db:migrate`
+* `rails server`
+
+* Navigate to "http://localhost:5000/" in your browser
