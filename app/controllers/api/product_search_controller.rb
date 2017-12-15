@@ -3,7 +3,6 @@ class Api::ProductSearchController < ApplicationController
   def index
     res = SearchWord.where(name: params[:search])
     if res.empty?
-      puts "Save to db and return"
       @items = Sem3SearchService.new(params).execute
       word = SearchWord.new({name: params[:search]})
       if word.save!
@@ -22,7 +21,6 @@ class Api::ProductSearchController < ApplicationController
       end
     else
       word = res[0]
-      puts "Get from cache"
     end
     @items = word.search_results
   end

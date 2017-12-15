@@ -1,6 +1,5 @@
 class Api::SearchResultController < ApplicationController
   def create
-    puts params
     res = SearchWord.where(name: params[:search])
     word = res[0]
 
@@ -23,7 +22,7 @@ class Api::SearchResultController < ApplicationController
 
   def destroy
     @result = SearchResult.find(params["id"])
-    puts @result.destroy
+    @result.destroy
     render json: ["Successfull Delete"], status: 200
   end
 end
