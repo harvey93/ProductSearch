@@ -40,7 +40,7 @@ end
 
 * `git clone https://github.com/harvey93/ProductSearch.git`
 
-* Create .env file at root directory and API key and secret
+* Create .env file at root directory and add API key and secret
 ```
 SEM3_API_KEY=
 SEM3_API_SECRET=
