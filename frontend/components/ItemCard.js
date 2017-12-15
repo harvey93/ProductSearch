@@ -11,7 +11,6 @@ class ItemCard extends React.Component{
   }
 
   handleDelete(){
-    console.log(this.props.item.id);
     axios.delete(`api/search_result/${this.props.item.id}`)
     .then(res => {
       this.setState({deleted:true});

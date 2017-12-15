@@ -6,7 +6,7 @@ Product Search is an application that allows users to search for their favorite 
 
 ### Cacheing search results
 
-![Search](assets/search.gif)
+![Search](assets/search.png)
 
 Users interact with a simple react interface and search for products. Subsequent searches of the same products are much faster than the first because of cacheing.
 
@@ -32,7 +32,7 @@ end
 
 ### Admin
 
-![Add/Delete](assets/add-del.gif)
+![Add/Delete](assets/add-del.png)
 
 "Admin" users of the application will be able to manage their local cache. They will have the ability to add new items as well as delete items from the cache.
 

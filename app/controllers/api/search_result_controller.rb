@@ -4,9 +4,10 @@ class Api::SearchResultController < ApplicationController
     word = res[0]
 
     item = params["result"]
+    puts item
     name = item["name"]
     price = item["price"]
-    retailer_name = item['name']
+    retailer_name = item['retailer']
     retailer_url = item['url']
 
     search_result = SearchResult.new({name: name, price: price, retailer_name: retailer_name, retailer_url: retailer_url, search_word_id: word.id})
