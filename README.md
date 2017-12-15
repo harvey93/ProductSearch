@@ -39,11 +39,18 @@ end
 ## Running Product Search Locally
 
 * `git clone https://github.com/harvey93/ProductSearch.git`
+
+* Create .env file at root directory and API key and secret
+```
+SEM3_API_KEY=
+SEM3_API_SECRET=
+```
 * `cd ProductSearch`
 * `bundle install`
 * `rake db:create`
 * `rake db:migrate`
 * `npm install`
 * `webpack`
+* `rails server`
 
 * Navigate to "http://localhost:5000/" in your browser

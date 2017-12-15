@@ -23858,7 +23858,6 @@ var ItemCard = function (_React$Component) {
     value: function handleDelete() {
       var _this2 = this;
 
-      console.log(this.props.item.id);
       _axios2.default.delete('api/search_result/' + this.props.item.id).then(function (res) {
         _this2.setState({ deleted: true });
       });
@@ -23877,7 +23876,6 @@ var ItemCard = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      console.log(this.props);
       if (!this.state.deleted) {
         return _react2.default.createElement(
           'div',
